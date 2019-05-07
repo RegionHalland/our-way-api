@@ -32,3 +32,16 @@ add_action('admin_menu', function() {
     // Add custom taxonomy `Areas`
     add_menu_page(__('Områden', 'ourway'), __('Områden', 'ourway'), 'manage_options', 'edit-tags.php?taxonomy=area', '', 'dashicons-tag', 7);
 });
+
+
+add_action('parent_file', function ($file) {
+		// Highlight the Taxonomy Concept menu item
+	    global $current_screen;
+
+	    $taxonomy = $current_screen->taxonomy;
+	    if ( $taxonomy == 'area' ) {
+	        $file = 'edit-tags.php?taxonomy=area';
+	    }
+
+	    return $file;
+});
