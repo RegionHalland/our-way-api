@@ -175,8 +175,6 @@ add_action('init', function() {
 		'singular_name'         => _x( 'Nyheter', 'Post Type Singular Name', 'ourway' ),
 		'menu_name'             => __( 'Nyheter', 'ourway' ),
         'name_admin_bar'        => __( 'Nyheter', 'ourway' ),
-		'archives'              => __( 'Item Archives', 'ourway' ),
-		'attributes'            => __( 'Item Attributes', 'ourway' ),
 		'parent_item_colon'     => __( 'Parent Item:', 'ourway' ),
 		'search_items'          => __( 'Search Item', 'ourway' ),
 		'items_list'            => __( 'Items list', 'ourway' ),
@@ -203,7 +201,8 @@ add_action('init', function() {
 		'has_archive'           => true,
 		'exclude_from_search'   => false,
 		'publicly_queryable'    => true,
-		'capability_type'       => 'page',
+        'capability_type'       => 'page',
+        'show_in_rest'               => true
     );
     
 	register_post_type( 'news', $args );
@@ -242,9 +241,15 @@ add_action('init', function() {
 		'exclude_from_search'   => false,
 		'publicly_queryable'    => true,
 		'capability_type'       => 'page',
-		'show_in_rest'          => true,
+        'show_in_rest'          => true,
+        'show_in_rest'          => true
     );
     
     register_post_type( 'event', $args );
     
 }, 0);
+
+add_filter('acf/update_value/type=date_time_picker', function( $value, $post_id, $field ) {
+	return strtotime($value);	
+}, 10, 3);
+
