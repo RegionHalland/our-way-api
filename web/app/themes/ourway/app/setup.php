@@ -130,3 +130,134 @@ add_action('after_setup_theme', function () {
         return "<?= " . __NAMESPACE__ . "\\asset_path({$asset}); ?>";
     });
 });
+
+/** Add custom taxonomy areas */
+add_action('init', function() {
+	$labels = array(
+		'name'                       => _x( 'Områden', 'Taxonomy General Name', 'ourway' ),
+		'singular_name'              => _x( 'Områden', 'Taxonomy Singular Name', 'ourway' ),
+		'menu_name'                  => __( 'Områden', 'ourway' ),
+		'all_items'                  => __( 'All Items', 'ourway' ),
+		'parent_item'                => __( 'Överordnat område', 'ourway' ),
+		'parent_item_colon'          => __( 'Överordnat område:', 'ourway' ),
+		'new_item_name'              => __( 'New Item Name', 'ourway' ),
+		'add_new_item'               => __( 'Lägg till ett nytt område', 'ourway' ),
+		'edit_item'                  => __( 'Edit Item', 'ourway' ),
+		'update_item'                => __( 'Update Item', 'ourway' ),
+		'view_item'                  => __( 'View Item', 'ourway' ),
+		'separate_items_with_commas' => __( 'Separate items with commas', 'ourway' ),
+		'add_or_remove_items'        => __( 'Add or remove items', 'ourway' ),
+		'choose_from_most_used'      => __( 'Välj från de mest använda områdena', 'ourway' ),
+		'popular_items'              => __( 'Populära områden', 'ourway' ),
+		'search_items'               => __( 'Sök efter område', 'ourway' ),
+		'not_found'                  => __( 'Inga områden funna.', 'ourway' ),
+		'no_terms'                   => __( 'No items', 'ourway' ),
+		'items_list'                 => __( 'Items list', 'ourway' ),
+		'items_list_navigation'      => __( 'Items list navigation', 'ourway' ),
+    );
+    
+	$args = array(
+		'labels'                     => $labels,
+		'hierarchical'               => true,
+		'public'                     => true,
+		'show_ui'                    => true,
+		'show_admin_column'          => true,
+        'show_in_nav_menus'          => true,
+        'show_in_rest'               => true
+    );
+    
+	register_taxonomy( 'area', array( 'news', 'event' ), $args );
+}, 0);
+
+/** Add custom post type News */
+add_action('init', function() {
+	$labels = array(
+		'name'                  => _x( 'Nyheter', 'Post Type General Name', 'ourway' ),
+		'singular_name'         => _x( 'Nyheter', 'Post Type Singular Name', 'ourway' ),
+		'menu_name'             => __( 'Nyheter', 'ourway' ),
+        'name_admin_bar'        => __( 'Nyheter', 'ourway' ),
+		'archives'              => __( 'Item Archives', 'ourway' ),
+		'attributes'            => __( 'Item Attributes', 'ourway' ),
+		'parent_item_colon'     => __( 'Parent Item:', 'ourway' ),
+		'search_items'          => __( 'Search Item', 'ourway' ),
+		'featured_image'        => __( 'Featured Image', 'ourway' ),
+		'set_featured_image'    => __( 'Set featured image', 'ourway' ),
+		'remove_featured_image' => __( 'Remove featured image', 'ourway' ),
+		'use_featured_image'    => __( 'Use as featured image', 'ourway' ),
+		'insert_into_item'      => __( 'Insert into item', 'ourway' ),
+		'uploaded_to_this_item' => __( 'Uploaded to this item', 'ourway' ),
+		'items_list'            => __( 'Items list', 'ourway' ),
+		'items_list_navigation' => __( 'Items list navigation', 'ourway' ),
+		'filter_items_list'     => __( 'Filter items list', 'ourway' ),
+    );
+    
+	$args = array(
+		'label'                 => __( 'News', 'ourway' ),
+		'description'           => __( 'News', 'ourway' ),
+		'labels'                => $labels,
+		'supports'              => array( 'title', 'editor' ),
+		'taxonomies'            => array( 'area' ),
+		'hierarchical'          => false,
+		'public'                => true,
+		'show_ui'               => true,
+        'show_in_menu'          => true,
+        'menu_icon'             => 'dashicons-rss',
+		'menu_position'         => 5,
+		'show_in_admin_bar'     => true,
+        'show_in_nav_menus'     => true,
+        'show_in_nav_rest'      => true,
+		'can_export'            => true,
+		'has_archive'           => true,
+		'exclude_from_search'   => false,
+		'publicly_queryable'    => true,
+		'capability_type'       => 'page',
+    );
+    
+	register_post_type( 'news', $args );
+}, 0);
+
+/** Add custom post type Events */
+add_action('init', function() {
+    $labels = array(
+		'name'                  => _x( 'Evenemang', 'Post Type General Name', 'ourway' ),
+		'singular_name'         => _x( 'Evenemang', 'Post Type Singular Name', 'ourway' ),
+		'menu_name'             => __( 'Evenemang', 'ourway' ),
+        'name_admin_bar'        => __( 'Evenemang', 'ourway' ),
+		'parent_item_colon'     => __( 'Parent Item:', 'ourway' ),
+		'search_items'          => __( 'Search Item', 'ourway' ),
+		'featured_image'        => __( 'Featured Image', 'ourway' ),
+		'set_featured_image'    => __( 'Set featured image', 'ourway' ),
+		'remove_featured_image' => __( 'Remove featured image', 'ourway' ),
+		'use_featured_image'    => __( 'Use as featured image', 'ourway' ),
+		'insert_into_item'      => __( 'Insert into item', 'ourway' ),
+		'uploaded_to_this_item' => __( 'Uploaded to this item', 'ourway' ),
+		'items_list'            => __( 'Items list', 'ourway' ),
+		'items_list_navigation' => __( 'Items list navigation', 'ourway' ),
+		'filter_items_list'     => __( 'Filter items list', 'ourway' ),
+    );
+    
+	$args = array(
+		'label'                 => __( 'Event', 'ourway' ),
+		'description'           => __( 'Events', 'ourway' ),
+		'labels'                => $labels,
+		'supports'              => array( 'title', 'editor' ),
+		'taxonomies'            => array( 'area' ),
+		'hierarchical'          => false,
+		'public'                => true,
+		'show_ui'               => true,
+        'show_in_menu'          => true,
+        'menu_icon'             => 'dashicons-calendar',
+		'menu_position'         => 5,
+		'show_in_admin_bar'     => true,
+		'show_in_nav_menus'     => true,
+		'can_export'            => true,
+		'has_archive'           => true,
+		'exclude_from_search'   => false,
+		'publicly_queryable'    => true,
+		'capability_type'       => 'page',
+		'show_in_rest'          => true,
+    );
+    
+    register_post_type( 'event', $args );
+    
+}, 0);
