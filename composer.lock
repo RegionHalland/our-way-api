@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7cf8a78c89dba309264c4e6f333c8a24",
+    "content-hash": "718d1c5c0989afa24ced9dfe966031aa",
     "packages": [
         {
             "name": "advanced-custom-fields/advanced-custom-fields-pro",
@@ -240,6 +240,39 @@
                 "wp"
             ],
             "time": "2019-01-30T21:44:48+00:00"
+        },
+        {
+            "name": "helsingborg-stad/acf-export-manager",
+            "version": "1.0.11",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/helsingborg-stad/acf-export-manager.git",
+                "reference": "27e904a24eb013cac5c8f3d3c30e88b5b9b7859b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/helsingborg-stad/acf-export-manager/zipball/27e904a24eb013cac5c8f3d3c30e88b5b9b7859b",
+                "reference": "27e904a24eb013cac5c8f3d3c30e88b5b9b7859b",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "AcfExportManager\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kristoffer Svanmark",
+                    "email": "kristoffer.svanmark@knowit.se"
+                }
+            ],
+            "description": "ACF Export Manager is a extension that let's you automatically export specified your ACF fields on save.",
+            "time": "2018-05-29T07:52:24+00:00"
         },
         {
             "name": "nekojira/wp-api-menus",

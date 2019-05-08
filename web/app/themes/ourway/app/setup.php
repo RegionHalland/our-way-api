@@ -6,6 +6,7 @@ use Roots\Sage\Container;
 use Roots\Sage\Assets\JsonManifest;
 use Roots\Sage\Template\Blade;
 use Roots\Sage\Template\BladeProvider;
+use HelsingborgsStad\AcfExportManager;
 
 /**
  * Theme assets
@@ -276,3 +277,21 @@ if( function_exists('acf_add_options_page') ) {
 		'parent_slug'	=> 'theme-general-settings',
     ));   
 }
+
+/**
+ * ACF auto import and export fields
+ */
+add_action('init', function() {
+    if (class_exists('AcfExportManager\AcfExportManager')) {
+        $acfExportManager = new \AcfExportManager\AcfExportManager();
+        $acfExportManager->setTextdomain('ourway');
+        $acfExportManager->setExportFolder(__DIR__ . '/acf');
+        $acfExportManager->autoExport(array(
+            'evenemang' => 'group_5cd1795ef09a6',
+            'område' => 'group_5cd27c0c373e2',
+            'sidfot' => 'group_5cd27a0022129',
+            'startsidan' => 'group_5cd278e2007e1'
+        ));
+        $acfExportManager->import();
+    }
+});
