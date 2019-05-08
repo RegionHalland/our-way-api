@@ -182,6 +182,13 @@ add_action('init', function() {
 		'items_list_navigation' => __( 'Items list navigation', 'ourway' ),
 		'filter_items_list'     => __( 'Filter items list', 'ourway' ),
     );
+
+    $rewrite = array(
+		'slug'                  => 'nyheter',
+		'with_front'            => true,
+		'pages'                 => true,
+		'feeds'                 => true,
+	);
     
 	$args = array(
 		'label'                 => __( 'News', 'ourway' ),
@@ -203,7 +210,8 @@ add_action('init', function() {
 		'exclude_from_search'   => false,
 		'publicly_queryable'    => true,
         'capability_type'       => 'page',
-        'show_in_rest'               => true
+        'show_in_rest'          => true,
+        'rewrite'               => $rewrite
     );
     
 	register_post_type( 'news', $args );
@@ -222,6 +230,13 @@ add_action('init', function() {
 		'items_list_navigation' => __( 'Items list navigation', 'ourway' ),
 		'filter_items_list'     => __( 'Filter items list', 'ourway' ),
     );
+
+    $rewrite = array(
+		'slug'                  => 'evenemang',
+		'with_front'            => true,
+		'pages'                 => true,
+		'feeds'                 => true,
+	);
     
 	$args = array(
 		'label'                 => __( 'Event', 'ourway' ),
@@ -243,7 +258,7 @@ add_action('init', function() {
 		'publicly_queryable'    => true,
 		'capability_type'       => 'page',
         'show_in_rest'          => true,
-        'show_in_rest'          => true
+        'rewrite'               => $rewrite
     );
     
     register_post_type( 'event', $args );
