@@ -45,7 +45,7 @@
             'role' => '',
             'allow_null' => 0,
             'multiple' => 0,
-            'return_format' => 'array',
+            'return_format' => 'object',
         ),
     ),
     'location' => array(
