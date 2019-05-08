@@ -33,9 +33,8 @@ add_action('admin_menu', function() {
     add_menu_page(__('Områden', 'ourway'), __('Områden', 'ourway'), 'manage_options', 'edit-tags.php?taxonomy=area', '', 'dashicons-tag', 7);
 });
 
-
-add_action('parent_file', function ($file) {
-		// Highlight the Taxonomy Concept menu item
+// Highlight the Taxonomy Concept menu item
+add_action('parent_file', function ($file) {		
 	    global $current_screen;
 
 	    $taxonomy = $current_screen->taxonomy;
@@ -44,4 +43,8 @@ add_action('parent_file', function ($file) {
 	    }
 
 	    return $file;
+});
+
+add_action('acf/init', function() {
+    acf_update_setting('google_api_key', getenv("GOOGLE_MAPS_API_KEY"));
 });

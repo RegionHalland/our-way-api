@@ -253,3 +253,26 @@ add_filter('acf/update_value/type=date_time_picker', function( $value, $post_id,
 	return strtotime($value);	
 }, 10, 3);
 
+/* Add options page */
+if( function_exists('acf_add_options_page') ) {
+	acf_add_options_page(array(
+		'page_title' 	=> 'Temainställningar',
+		'menu_title'	=> 'Temainställningar',
+        'menu_slug' 	=> 'theme-general-settings',
+        'position'      => 20,
+		'capability'	=> 'edit_posts',
+		'redirect'		=> true
+    ));
+    
+    acf_add_options_sub_page(array(
+		'page_title' 	=> 'Inställningar för startsidan',
+		'menu_title'	=> 'Startsidan',
+		'parent_slug'	=> 'theme-general-settings',
+	));
+	
+	acf_add_options_sub_page(array(
+		'page_title' 	=> 'Inställningar för sidfoten',
+		'menu_title'	=> 'Sidfot',
+		'parent_slug'	=> 'theme-general-settings',
+    ));   
+}
