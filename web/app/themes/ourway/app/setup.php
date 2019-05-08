@@ -290,7 +290,8 @@ add_action('init', function() {
             'evenemang' => 'group_5cd1795ef09a6',
             'område' => 'group_5cd27c0c373e2',
             'sidfot' => 'group_5cd27a0022129',
-            'startsidan' => 'group_5cd278e2007e1'
+            'startsidan' => 'group_5cd278e2007e1',
+            'kontaktinformation' => 'group_5cd28b456ee3b'
         ));
         $acfExportManager->import();
     }
