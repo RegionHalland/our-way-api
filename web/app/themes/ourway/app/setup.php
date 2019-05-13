@@ -155,6 +155,14 @@ add_action('init', function() {
 		'items_list'                 => __( 'Items list', 'ourway' ),
 		'items_list_navigation'      => __( 'Items list navigation', 'ourway' ),
     );
+
+    $rewrite = array(
+		'slug'                  => '/',
+		'with_front'            => true,
+		'pages'                 => true,
+		'feeds'                 => true
+	);
+    
     
 	$args = array(
 		'labels'                     => $labels,
@@ -163,7 +171,8 @@ add_action('init', function() {
 		'show_ui'                    => true,
 		'show_admin_column'          => true,
         'show_in_nav_menus'          => true,
-        'show_in_rest'               => true
+        'show_in_rest'               => true,
+        'rewrite'                    => $rewrite
     );
     
 	register_taxonomy( 'area', array( 'news', 'event' ), $args );
@@ -194,7 +203,7 @@ add_action('init', function() {
 		'label'                 => __( 'News', 'ourway' ),
 		'description'           => __( 'News', 'ourway' ),
 		'labels'                => $labels,
-		'supports'              => array( 'title', 'editor', 'thumbnail' ),
+		'supports'              => array( 'title', 'editor', 'thumbnail', 'author'),
 		'taxonomies'            => array( 'area' ),
 		'hierarchical'          => false,
 		'public'                => true,
@@ -242,7 +251,7 @@ add_action('init', function() {
 		'label'                 => __( 'Event', 'ourway' ),
 		'description'           => __( 'Events', 'ourway' ),
 		'labels'                => $labels,
-		'supports'              => array( 'title', 'editor', 'thumbnail' ),
+		'supports'              => array( 'title', 'editor', 'thumbnail', 'author' ),
 		'taxonomies'            => array( 'area' ),
 		'hierarchical'          => false,
 		'public'                => true,
@@ -311,3 +320,13 @@ add_action('init', function() {
         $acfExportManager->import();
     }
 });
+
+add_filter( 'rest_prepare_user', function( $response, $user, $request ) {
+    $response->data[ 'first_name' ] = get_user_meta( $user->ID, 'first_name', true );
+    $response->data[ 'last_name' ] = get_user_meta( $user->ID, 'last_name', true );
+    $user_info = get_userdata($user->ID);
+    $response->data[ 'email' ] = $user_info->user_email;
+
+    return $response;
+
+}, 10, 3 );
