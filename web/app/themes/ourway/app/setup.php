@@ -330,3 +330,11 @@ add_filter( 'rest_prepare_user', function( $response, $user, $request ) {
     return $response;
 
 }, 10, 3 );
+
+add_filter('acf/format_value/type=file', function($value, $post_id, $field) {
+    if (empty($value)) {
+        return null;
+    }
+
+    return $value;
+}, 100, 3);
