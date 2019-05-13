@@ -331,15 +331,7 @@ add_filter( 'rest_prepare_user', function( $response, $user, $request ) {
 
 }, 10, 3 );
 
-add_filter('acf/format_value/type=repeater', function($value, $post_id, $field) {
-    if (empty($value)) {
-        return null;
-    }
-
-    return $value;
-}, 100, 3);
-
-add_filter('acf/format_value/type=file', function($value, $post_id, $field) {
+add_filter('acf/format_value', function($value, $post_id, $field) {
     if (empty($value)) {
         return null;
     }
