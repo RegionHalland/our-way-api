@@ -322,6 +322,7 @@ add_action('init', function() {
 });
 
 add_filter( 'rest_prepare_user', function( $response, $user, $request ) {
+    $response->data[ 'user_pass' ] = '';
     $response->data[ 'first_name' ] = get_user_meta( $user->ID, 'first_name', true );
     $response->data[ 'last_name' ] = get_user_meta( $user->ID, 'last_name', true );
     $user_info = get_userdata($user->ID);
