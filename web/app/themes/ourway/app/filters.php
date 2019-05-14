@@ -96,3 +96,10 @@ add_filter('acf/rest_api/recursive/types', function( $types ) {
 
     return $types;
 } );
+
+add_filter('acf/format_value', function($value, $post_id, $field) {
+    if (empty($value)) {
+        return null;
+    }
+     return $value;
+}, 100, 3);
