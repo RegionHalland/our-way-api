@@ -330,10 +330,3 @@ add_filter( 'rest_prepare_user', function( $response, $user, $request ) {
     return $response;
 
 }, 10, 3 );
-
-add_filter('acf/rest_api/recursive/types', function( $types ) {
-    array_push($types, "contact");
-    array_push($types, "area");
-
-    return $types;
-} );
