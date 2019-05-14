@@ -91,9 +91,8 @@ add_filter('comments_template', function ($comments_template) {
 }, 100);
 
 
-// add_filter('acf/rest_api/recursive/types', function( $types ) {
-//     array_push($types, "contact");
-//     array_push($types, "area");
+add_filter('acf/rest_api/recursive/types', function( $types ) {
+    array_push($types, "area");
 
-//     return $types;
-// } );
+    return $types;
+} );
