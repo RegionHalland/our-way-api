@@ -23,28 +23,6 @@ add_action('customize_preview_init', function () {
     wp_enqueue_script('sage/customizer.js', asset_path('scripts/customizer.js'), ['customize-preview'], null, true);
 });
 
-/** Manipulate the admin menu */
-add_action('admin_menu', function() {
-    // Remove pages not needed
-    remove_menu_page('edit.php');
-    remove_menu_page('edit-comments.php');
-
-    // Add custom taxonomy `Areas`
-    add_menu_page(__('Områden', 'ourway'), __('Områden', 'ourway'), 'manage_options', 'edit-tags.php?taxonomy=area', '', 'dashicons-tag', 7);
-});
-
-// Highlight the Taxonomy Concept menu item
-add_action('parent_file', function ($file) {		
-	    global $current_screen;
-
-	    $taxonomy = $current_screen->taxonomy;
-	    if ( $taxonomy == 'area' ) {
-	        $file = 'edit-tags.php?taxonomy=area';
-	    }
-
-	    return $file;
-});
-
 add_action('acf/init', function() {
     acf_update_setting('google_api_key', getenv("GOOGLE_MAPS_API_KEY"));
 });

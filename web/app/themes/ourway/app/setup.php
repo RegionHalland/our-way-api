@@ -74,6 +74,15 @@ add_action('after_setup_theme', function () {
 }, 20);
 
 /**
+ * Manipulate the admin menu
+ */
+add_action('admin_menu', function() {
+    // Remove pages not needed
+    remove_menu_page('edit.php');
+    remove_menu_page('edit-comments.php');
+});
+
+/**
  * Register sidebars
  */
 add_action('widgets_init', function () {
@@ -132,53 +141,58 @@ add_action('after_setup_theme', function () {
     });
 });
 
-/** Add custom taxonomy areas */
+/**
+* Custom Post Type - Department 
+*/
 add_action('init', function() {
-	$labels = array(
-		'name'                       => _x( 'Områden', 'Taxonomy General Name', 'ourway' ),
-		'singular_name'              => _x( 'Områden', 'Taxonomy Singular Name', 'ourway' ),
-		'menu_name'                  => __( 'Områden', 'ourway' ),
-		'parent_item'                => __( 'Överordnat område', 'ourway' ),
-		'parent_item_colon'          => __( 'Överordnat område:', 'ourway' ),
-		'new_item_name'              => __( 'New Item Name', 'ourway' ),
-		'add_new_item'               => __( 'Lägg till ett nytt område', 'ourway' ),
-		'edit_item'                  => __( 'Edit Item', 'ourway' ),
-		'update_item'                => __( 'Update Item', 'ourway' ),
-		'view_item'                  => __( 'View Item', 'ourway' ),
-		'separate_items_with_commas' => __( 'Separate items with commas', 'ourway' ),
-		'add_or_remove_items'        => __( 'Add or remove items', 'ourway' ),
-		'choose_from_most_used'      => __( 'Välj från de mest använda områdena', 'ourway' ),
-		'popular_items'              => __( 'Populära områden', 'ourway' ),
-		'search_items'               => __( 'Sök efter område', 'ourway' ),
-		'not_found'                  => __( 'Inga områden funna.', 'ourway' ),
-		'no_terms'                   => __( 'No items', 'ourway' ),
-		'items_list'                 => __( 'Items list', 'ourway' ),
-		'items_list_navigation'      => __( 'Items list navigation', 'ourway' ),
+    $labels = array(
+        'name'                  => _x( 'Avdelning', 'Post Type General Name', 'ourway' ),
+        'singular_name'         => _x( 'Avdelning', 'Post Type Singular Name', 'ourway' ),
+        'menu_name'             => __( 'Avdelning', 'ourway' ),
+        'name_admin_bar'        => __( 'Avdelning', 'ourway' ),
+        'parent_item_colon'     => __( 'Parent Item:', 'ourway' ),
+        'search_items'          => __( 'Search Item', 'ourway' ),
+        'items_list'            => __( 'Items list', 'ourway' ),
+        'items_list_navigation' => __( 'Items list navigation', 'ourway' ),
+        'filter_items_list'     => __( 'Filter items list', 'ourway' ),
     );
 
     $rewrite = array(
-		'slug'                  => '/',
-		'with_front'            => true,
-		'pages'                 => true,
-		'feeds'                 => true
-	);
-    
-    
-	$args = array(
-		'labels'                     => $labels,
-		'hierarchical'               => true,
-		'public'                     => true,
-		'show_ui'                    => true,
-		'show_admin_column'          => true,
-        'show_in_nav_menus'          => true,
-        'show_in_rest'               => true,
-        'rewrite'                    => $rewrite
+        'slug'                  => 'avdelningar',
+        'with_front'            => true,
+        'pages'                 => true,
+        'feeds'                 => true,
     );
     
-	register_taxonomy( 'area', array( 'news', 'event' ), $args );
+    $args = array(
+        'label'                 => __( 'Department', 'ourway' ),
+        'description'           => __( 'Departments', 'ourway' ),
+        'labels'                => $labels,
+        'supports'              => array( 'title', 'editor', 'thumbnail', 'author', 'page-attributes'),
+        'hierarchical'          => true,
+        'public'                => true,
+        'show_ui'               => true,
+        'show_in_menu'          => true,
+        'menu_icon'             => 'dashicons-category',
+        'menu_position'         => 5,
+        'show_in_admin_bar'     => true,
+        'show_in_nav_menus'     => true,
+        'show_in_nav_rest'      => true,
+        'can_export'            => true,
+        'has_archive'           => true,
+        'exclude_from_search'   => false,
+        'publicly_queryable'    => true,
+        'capability_type'       => 'page',
+        'show_in_rest'          => true,
+        'rewrite'               => $rewrite
+    );
+    
+    register_post_type( 'department', $args );
 }, 0);
 
-/** Add custom post type News */
+/**
+ * Custom Post Type - News 
+ */
 add_action('init', function() {
 	$labels = array(
 		'name'                  => _x( 'Nyheter', 'Post Type General Name', 'ourway' ),
@@ -203,9 +217,8 @@ add_action('init', function() {
 		'label'                 => __( 'News', 'ourway' ),
 		'description'           => __( 'News', 'ourway' ),
 		'labels'                => $labels,
-		'supports'              => array( 'title', 'editor', 'thumbnail', 'author'),
-		'taxonomies'            => array( 'area' ),
-		'hierarchical'          => false,
+		'supports'              => array( 'title', 'editor', 'thumbnail', 'author', 'page-attributes'),
+		'hierarchical'          => true,
 		'public'                => true,
 		'show_ui'               => true,
         'show_in_menu'          => true,
@@ -226,7 +239,9 @@ add_action('init', function() {
 	register_post_type( 'news', $args );
 }, 0);
 
-/** Add custom post type Events */
+/**
+ * Custom Post Type - Events 
+ */
 add_action('init', function() {
     $labels = array(
 		'name'                  => _x( 'Evenemang', 'Post Type General Name', 'ourway' ),
@@ -252,7 +267,6 @@ add_action('init', function() {
 		'description'           => __( 'Events', 'ourway' ),
 		'labels'                => $labels,
 		'supports'              => array( 'title', 'editor', 'thumbnail', 'author' ),
-		'taxonomies'            => array( 'area' ),
 		'hierarchical'          => false,
 		'public'                => true,
 		'show_ui'               => true,
@@ -274,11 +288,14 @@ add_action('init', function() {
     
 }, 0);
 
+
 add_filter('acf/update_value/type=date_time_picker', function( $value, $post_id, $field ) {
 	return strtotime($value);	
 }, 10, 3);
 
-/* Add options page */
+/**
+ * Add options page 
+ */
 if( function_exists('acf_add_options_page') ) {
 	acf_add_options_page(array(
 		'page_title' 	=> 'Temainställningar',
