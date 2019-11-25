@@ -288,6 +288,55 @@ add_action('init', function() {
     
 }, 0);
 
+/**
+ * Custom Post Type - Contact 
+ */
+add_action('init', function() {
+    $labels = array(
+        'name'                  => _x( 'Kontaktpersoner', 'Post Type General Name', 'ourway' ),
+        'singular_name'         => _x( 'Kontaktpersoner', 'Post Type Singular Name', 'ourway' ),
+        'menu_name'             => __( 'Kontaktpersoner', 'ourway' ),
+        'name_admin_bar'        => __( 'Kontaktpersoner', 'ourway' ),
+        'parent_item_colon'     => __( 'Parent Item:', 'ourway' ),
+        'search_items'          => __( 'Search Item', 'ourway' ),
+        'items_list'            => __( 'Items list', 'ourway' ),
+        'items_list_navigation' => __( 'Items list navigation', 'ourway' ),
+        'filter_items_list'     => __( 'Filter items list', 'ourway' ),
+    );
+
+    $rewrite = array(
+        'slug'                  => 'evenemang',
+        'with_front'            => true,
+        'pages'                 => true,
+        'feeds'                 => true,
+    );
+    
+    $args = array(
+        'label'                 => __( 'Contact', 'ourway' ),
+        'description'           => __( 'Contacts', 'ourway' ),
+        'labels'                => $labels,
+        'supports'              => array( 'title', 'editor', 'thumbnail', 'author' ),
+        'hierarchical'          => false,
+        'public'                => true,
+        'show_ui'               => true,
+        'show_in_menu'          => true,
+        'menu_icon'             => 'dashicons-businesswoman',
+        'menu_position'         => 5,
+        'show_in_admin_bar'     => true,
+        'show_in_nav_menus'     => true,
+        'can_export'            => true,
+        'has_archive'           => true,
+        'exclude_from_search'   => false,
+        'publicly_queryable'    => true,
+        'capability_type'       => 'page',
+        'show_in_rest'          => true,
+        'rewrite'               => $rewrite
+    );
+    
+    register_post_type( 'contact', $args );
+    
+}, 0);
+
 
 add_filter('acf/update_value/type=date_time_picker', function( $value, $post_id, $field ) {
 	return strtotime($value);	
@@ -328,11 +377,8 @@ add_action('init', function() {
         $acfExportManager->setTextdomain('ourway');
         $acfExportManager->setExportFolder(__DIR__ . '/acf');
         $acfExportManager->autoExport(array(
-            'evenemang' => 'group_5cd1795ef09a6',
-            'område' => 'group_5cd27c0c373e2',
-            'sidfot' => 'group_5cd27a0022129',
-            'startsidan' => 'group_5cd278e2007e1',
-            'kontaktinformation' => 'group_5cd28b456ee3b'
+            'department_parent' => 'group_5ddb97bdb9dac',
+            'department_children' => 'group_5ddb9cec17d4d',
         ));
         $acfExportManager->import();
     }
@@ -347,3 +393,56 @@ add_filter( 'rest_prepare_user', function( $response, $user, $request ) {
     return $response;
 
 }, 10, 3 );
+
+/**
+ * Add rule to check custom post type parents in ACF
+ * https://support.advancedcustomfields.com/forums/topic/add-condition-page-parent-for-custom-post-types/
+ */
+
+add_filter('acf/location/rule_types', function($choices) {
+    $choices['Custom Post Types']['cpt_parent'] = 'Custom Post Type Parent';
+    return $choices;
+});
+
+
+add_filter('acf/location/rule_values/cpt_parent', function ($choices) {
+    $args = array(
+        'hierarchical' => true,
+        '_builtin' => false,
+        'public' => true
+    );
+    $hierarchical_posttypes = get_post_types($args);
+    foreach($hierarchical_posttypes as $hierarchical_posttype) {
+        if ('acf' !== $hierarchical_posttype) {
+            $choices[0] = __('Ingen förälder');
+            $args = array(
+                'post_type' => $hierarchical_posttype,
+                'posts_per_page' => -1,
+                'post_status' => 'publish'
+            );
+            $customposts = get_posts($args);
+            foreach ($customposts as $custompost) {
+                $choices[$custompost->ID] = $custompost->post_title;
+            }
+        }
+    }
+    return $choices;
+});
+
+add_filter('acf/location/rule_match/cpt_parent', function ($match, $rule, $options) {
+    global $post;
+    $selected_post = (int) $rule['value'];
+
+    if ($post) { // post parent
+        $post_parent = $post->post_parent;
+        if (isset($options['page_parent'])) {
+            $post_parent = $options['page_parent'];
+        }
+        if ('==' == $rule['operator']) {
+            $match = ($post_parent == $selected_post);
+        } elseif ('!=' == $rule['operator']) {
+            $match = ($post_parent != $selected_post);
+        }
+    }
+  return $match;
+}, 10, 3);
