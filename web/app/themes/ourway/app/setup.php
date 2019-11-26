@@ -284,7 +284,7 @@ add_action('init', function() {
         'rewrite'               => $rewrite
     );
     
-    register_post_type( 'events', $args );
+    register_post_type( 'event', $args );
     
 }, 0);
 
