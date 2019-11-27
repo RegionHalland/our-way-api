@@ -372,6 +372,7 @@ add_action('init', function() {
         $acfExportManager->autoExport(array(
             'department_parent' => 'group_5ddb97bdb9dac',
             'department_children' => 'group_5ddb9cec17d4d',
+            'events' => 'group_5cd1795ef09a6',
             'options_homepage' => 'group_5dde6fcc6caed',
             'media_attachments' => 'group_5dde724e9b3b9',
         ));
