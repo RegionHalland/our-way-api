@@ -1,0 +1,43 @@
+[{
+    "key": "group_5dde724e9b3b9",
+    "title": "Bilaga",
+    "fields": [
+        {
+            "key": "field_5dde727cba430",
+            "label": "Fotograf",
+            "name": "citation",
+            "type": "text",
+            "instructions": "Namn p\u00e5 fotograf eller \u00e4gare till bild, t.ex. \"Anders Andersson\"",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "attachment",
+                "operator": "==",
+                "value": "all"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "F\u00e4lt kopplade till en inst\u00e4llningar f\u00f6r bilagor"
+}]
+
