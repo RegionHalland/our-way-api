@@ -346,25 +346,18 @@ add_filter('acf/update_value/type=date_time_picker', function( $value, $post_id,
  * Add options page 
  */
 if( function_exists('acf_add_options_page') ) {
-	acf_add_options_page(array(
-		'page_title' 	=> 'Temainställningar',
-		'menu_title'	=> 'Temainställningar',
-        'menu_slug' 	=> 'theme-general-settings',
+    acf_add_options_page(array(
+        'page_title'    => 'Innehåll',
+        'menu_title'    => 'Innehåll',
+        'menu_slug'     => 'theme-general',
         'position'      => 20,
-		'capability'	=> 'edit_posts',
-		'redirect'		=> true
+        'capability'    => 'edit_posts',
+        'redirect'      => true
     ));
-    
     acf_add_options_sub_page(array(
-		'page_title' 	=> 'Inställningar för startsidan',
-		'menu_title'	=> 'Startsidan',
-		'parent_slug'	=> 'theme-general-settings',
-	));
-	
-	acf_add_options_sub_page(array(
-		'page_title' 	=> 'Inställningar för sidfoten',
-		'menu_title'	=> 'Sidfot',
-		'parent_slug'	=> 'theme-general-settings',
+        'page_title'    => 'Startsida',
+        'menu_title'    => 'Startsida',
+        'parent_slug'   => 'theme-general',
     ));   
 }
 
@@ -379,6 +372,7 @@ add_action('init', function() {
         $acfExportManager->autoExport(array(
             'department_parent' => 'group_5ddb97bdb9dac',
             'department_children' => 'group_5ddb9cec17d4d',
+            'options_homepage' => 'group_5dde6fcc6caed',
         ));
         $acfExportManager->import();
     }
